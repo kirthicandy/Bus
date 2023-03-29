@@ -24,6 +24,7 @@ try{
           setUserData(data.data.data);
           setAdmin(data.data.data.email === "rajk12@gmail.com");
           console.log("data",data.data.data.email)
+          console.log("hi")
         }
       });
     

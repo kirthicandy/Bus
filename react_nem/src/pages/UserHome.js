@@ -14,6 +14,7 @@ export default function BusList({ userData }) {
 
 
   const [choose, setChoose] = useState(null);
+  const [choos, setChoos] = useState(null);
 
   useEffect(() => {
     if (!choose) {
@@ -38,7 +39,7 @@ export default function BusList({ userData }) {
     });
   }; 
   const getdesSearch = (e) => {
-    setChoose(e.target.value);
+    setChoos(e.target.value);
     console.log(e.target.value);
 
     axios.get("http://localhost:2112/busroute/aggregate").then((data) => {
@@ -48,8 +49,10 @@ export default function BusList({ userData }) {
     });
   };
   const handleFilter=(e)=>{
-    getSearch(e)
-    getdesSearch(e)
+    axios.get("http://localhost:2112/busroute/aggregate").then((data) => {
+      let chooseItem = data.data.filter((item) => item.Source === choose && item.Destination ===choos);
+      setBusinfo(chooseItem);
+  })
   }
 
   const handleSubmit = (bId,userid) => {

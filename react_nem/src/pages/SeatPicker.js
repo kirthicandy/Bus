@@ -27,7 +27,7 @@ export default function SeatPicker() {
 
   useEffect = () => {
     axios
-      .post("http://localhost:2112/businfo/:id", {
+      .post("http://localhost:2112/busroute/aggregate/id", {
         id: localStorage.getItem("selectedBusId"),
       })
       .then((data) => {
@@ -36,9 +36,10 @@ export default function SeatPicker() {
           console.log("hi");
         } else {
           setUserData(data.data);
+          console.log(data.data)
         }
       });
-    axios
+        axios
       .post("http://localhost:2112/info/:id", {
         id: localStorage.getItem("Userid"),
       })

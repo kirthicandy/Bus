@@ -31,6 +31,10 @@ const busSchema = new mongoose.Schema({
   Boarding_point: {
     type: Array,
     required: true,
+  }, 
+  Dropping_point: {
+    type: Array,
+    required: true,
   },
  
 });

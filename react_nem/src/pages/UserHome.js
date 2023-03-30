@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import '../assests/css/userhome.css'
 import { FaAngleDoubleDown } from "react-icons/fa";
 import axios from "axios";
 import ReactSearchBox from "react-search-box";
@@ -26,16 +27,30 @@ export default function BusList({ userData }) {
 
     // })
   });
-  const getSearch = (value) => {
-    setChoose(value);
-    console.log(value);
+  const getSearch = (e) => {
+    setChoose(e.target.value);
+    console.log(e.target.value);
 
     axios.get("http://localhost:2112/busroute/aggregate").then((data) => {
-      let chooseItem = data.data.filter((item) => {return item.Source === value || item.Destination === value });
+      let chooseItem = data.data.filter((item) => item.Source === e.target.value);
+      setBusinfo(chooseItem);
+      console.log("hi", chooseItem);
+    });
+  }; 
+  const getdesSearch = (e) => {
+    setChoose(e.target.value);
+    console.log(e.target.value);
+
+    axios.get("http://localhost:2112/busroute/aggregate").then((data) => {
+      let chooseItem = data.data.filter((item) => item.Destination === e.target.value);
       setBusinfo(chooseItem);
       console.log("hi", chooseItem);
     });
   };
+  const handleFilter=(e)=>{
+    getSearch(e)
+    getdesSearch(e)
+  }
 
   const handleSubmit = (bId,userid) => {
     localStorage.setItem("selectedBusId", bId);
@@ -57,21 +72,30 @@ export default function BusList({ userData }) {
 
   return (
     <div className="x">
+      
       <p>Hii{userData.username}</p>
-      <ReactSearchBox
+      <div className="search">
+      <div className="box-2">
+      <input
+      type="text"
         className="box-2 "
         placeholder="Placeholder"
-        value="Doe"
+       
         data={Businfo}
-        onChange={(value) => getSearch(value)}
+        onChange={(e) => getSearch(e)}
       />
-      <ReactSearchBox
+      </div>
+      <div className="box-2">
+      <input
+       type="text"
             className="box-2"
             placeholder="Placeholder"
-            value="Doe"
+          
             data={Businfo}
-            onChange={(value) => getSearch(value)}
-          />
+            onChange={(e) => getdesSearch(e)}
+          /> </div>
+          </div>
+          <button onClick={(e)=>handleFilter(e)}>search</button>
 
       <div className="buscontainer">
         {Businfo &&
@@ -109,7 +133,7 @@ export default function BusList({ userData }) {
                           : "btn btn-primary btn-md disabled"
                       }
                       onClick={() => {
-                        handleSubmit(bus.Bus_id,userData._id);
+                        handleSubmit(bus._id,userData._id);
                       }}
                     >
                       Book Now

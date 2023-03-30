@@ -13,13 +13,13 @@ router.get("/", async (req, res) => {
 
 router.get("/aggregate", async (req, res) => {
     try {
-    //     let id = req.params.id
+        // let id = req.body.id
 
-    //     console.log(id)
+        // console.log(id)
       var aggregatequery = [
-    //     { 
-    //         $match : { "_id" : new mongoose.Types.ObjectId(id.toString())  }
-    //      },
+        // { 
+        //     $match : { "_id" : new mongoose.Types.ObjectId(id.toString())  }
+        //  },
         {
             
           $lookup:
@@ -37,8 +37,35 @@ router.get("/aggregate", async (req, res) => {
       res.send("Error" + err);
     }
   });
+  router.post("/aggregate/id", async (req, res) => {
+    try {
+        let id = req.body.id
+
+      
+      var aggregatequery = [
+        { 
+            $match : { "_id" : id  }
+         },
+        {
+            
+          $lookup:
+            {
+              from: "businfos",
+              localField: "Bus_id",
+              foreignField: "_id",
+              as: "busroutes"
+            }
+       }
+      ]
+      const detail = await busroute.aggregate(aggregatequery);
+      const data = detail.findById(id)
+      res.json(data);
+    } catch (err) {
+      res.send("Error" + err);
+    }
+  });
 router.post("/", async (req, res) => {
-  const { Bus_id, Source, Destination, Arrival_time, Departure_time, Boarding_point } =
+  const { Bus_id, Source, Destination, Arrival_time, Departure_time, Boarding_point,Dropping_point } =
     req.body;
 
   try {
@@ -49,6 +76,7 @@ router.post("/", async (req, res) => {
       Arrival_time,
       Departure_time,
       Boarding_point,
+      Dropping_point,
     });
     res.send({ status: "ok" });
   } catch (error) {

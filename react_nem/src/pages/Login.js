@@ -1,8 +1,10 @@
 import React, { useState } from "react";
+import '../assests/css/login.css';
 import axios from "axios";
-import { Link } from "react-router-dom";
+import Registration from "./Registration";
 
-export default function Login() {
+
+export default function Login(props) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -30,9 +32,10 @@ export default function Login() {
       });
   }
 
-  return (
-    <div className="auth-wrapper  w-25 m-auto mt-5 p-5">
-      <div className="auth-inner ">
+  return (<>
+ {props.somepop ==="open"?
+    <div className="auth-wrapper  p-5">
+      <div className="auth-inner  m-auto w-25">
         <form onSubmit={handleSubmit}>
           <h3>Sign In</h3>
 
@@ -74,11 +77,15 @@ export default function Login() {
               Submit
             </button>
           </div>
+          <br></br>
           <p className="forgot-password text-right">
-            <a href="/sign-up">Sign Up</a>
+            <button onClick={<Registration/>}>Sign Up</button> 
+            
           </p>
         </form>
       </div>
-    </div>
+    </div>:<Registration/>}
+    </>
+
   );
 }

@@ -20,6 +20,7 @@ export default function BusList({ userData }) {
     if (!choose) {
       axios.get("http://localhost:2112/busroute/aggregate").then((data) => {
         setBusinfo(data.data);
+      
 
         // handleBusInfo()
       });
@@ -55,10 +56,11 @@ export default function BusList({ userData }) {
   })
   }
 
-  const handleSubmit = (bId,userid) => {
+  const handleSubmit = (bId,userid,Source) => {
     localStorage.setItem("selectedBusId", bId);
     localStorage.setItem("Userid", userid);
-    console.log("hi",userid)
+    localStorage.setItem("Source", Source);
+    console.log("hi",bId)
     SetClas(false);
     setArrowDown(true);
     
@@ -126,7 +128,7 @@ export default function BusList({ userData }) {
                   <div className="col-6 col-sm-3 mb-4">{bus.Source}</div>
                   <div className="col-6 col-sm-3 mb-4">{bus.Destination}</div>
                   <div className="col-6 col-sm-3 mb-4">
-                    {bus.busroutes[0].Bus_Type}
+                    {bus.busroute[0].Bus_Type}
                   </div>
                   <div className="col-6 col-sm-4 mb-2 ml-0">
                     
@@ -136,7 +138,7 @@ export default function BusList({ userData }) {
                           : "btn btn-primary btn-md disabled"
                       }
                       onClick={() => {
-                        handleSubmit(bus._id,userData._id);
+                        handleSubmit(bus.Bus_id,userData._id,bus.Source);
                       }}
                     >
                       Book Now

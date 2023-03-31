@@ -1,6 +1,8 @@
 const express = require("express");
 const router = express.Router();
 const businfo = require("../model/Businfo");
+const mongoose = require("mongoose");
+
 router.get("/", async (req, res) => {
   try {
     const detail = await businfo.find();
@@ -32,7 +34,30 @@ router.post("/", async (req, res) => {
 router.post("/:id",async(req,res)=>{
   const{id} = req.body
   try {
-    const detail = await businfo.findById(id);
+    // const detail = await businfo.findById(id);
+
+    let id = req.body.id
+
+      
+    var aggregatequery = [
+      { 
+          $match : { "_id" : new mongoose.Types.ObjectId(id.toString()),    }
+       },
+      {
+          
+        $lookup:
+          {
+            from: "busroutes",
+            localField: "_id",
+            foreignField: "Bus_id",
+            as: "busroutes"
+          }
+     },
+     { 
+      $match : {"$Source" : "Chennai" }
+   },
+    ]
+    const detail = await businfo.aggregate(aggregatequery);
     res.json(detail);
   } catch (err) {
     res.send("Error" + err);

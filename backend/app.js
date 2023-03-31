@@ -1,7 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const programRouter = require("./router/route");
-const busRouter = require("./router/businfo")
+const busInfoRouter = require("./router/businfo")
 const busRoute = require("./router/busroutes")
 const reverseroute = require("./router/reverseroutes")
 
@@ -21,7 +21,7 @@ app.use(cors())
 app.use(express.json());
 
 app.use("/info", programRouter);
-app.use("/businfo", busRouter);
+app.use("/businfo", busInfoRouter);
 app.use("/busroute", busRoute);
 app.use("/reverseroutes", reverseroute);
 

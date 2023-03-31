@@ -26,43 +26,58 @@ export default function SeatPicker() {
   const [passengerData, setPassengerData] = useState([]);
 
   useEffect = () => {
+    handleData()
+   
+ 
+  }
+   
+  const handleData = () =>{
     axios
-      .post("http://localhost:2112/busroute/aggregate/id", {
-        id: localStorage.getItem("selectedBusId"),
-      })
-      .then((data) => {
-        if (data.status === "error") {
-          window.localStorage.clear();
-          console.log("hi");
-        } else {
-          setUserData(data.data);
-          console.log(data.data)
-        }
-      });
-        axios
-      .post("http://localhost:2112/info/:id", {
-        id: localStorage.getItem("Userid"),
-      })
-      .then((data) => {
-        if (data.status === "error") {
-          window.localStorage.clear();
-          console.log("hi");
-        } else {
-          setPassengerData(data.data);
-        }
-      });
-  };
+    .post("http://localhost:2112/busroute/agi", {
+      id: localStorage.getItem("selectedBusId"),
+      Source: localStorage.getItem("Source"),
+    })
+    .then((data) => {
+      if (data.status === "error") {
+        window.localStorage.clear();
+        console.log("hi");
+      } else {
+        setUserData(data.data[0]);
+     
+   
+     
+       
+       
+      }
+    });
+      axios
+    .post("http://localhost:2112/info/:id", {
+      id: localStorage.getItem("Userid"),
+    })
+    .then((data) => {
+      if (data.status === "error") {
+        window.localStorage.clear();
+        console.log("hi");
+      } else {
+        setPassengerData(data.data);
+      }
+    });
+};
+
+  
 
   const getSeatNumber = (e) => {
     renderPassengerData(seatNumber);
 
     let newSeat = e.target.value;
+    console.log(newSeat)
     if (reservedSeat.includes(newSeat)) {
       e.disabled = true;
       if (seatNumber.includes(newSeat)) {
         setSeatNumber(seatNumber.filter((seat) => seat !== newSeat));
       }
     } else {
+      if(newSeat)
       setSeatNumber([...seatNumber, newSeat]);
       setReservedSeat([...reservedSeat, newSeat]);
       console.log(seatNumber);
@@ -84,13 +99,16 @@ export default function SeatPicker() {
     localStorage.setItem("reservedSeats", JSON.stringify(seatNumber));
    
     
-   setSeatNo(seatNumber+",");
+   setSeatNo(seatNumber);
+    console.log(seatNumber)
     setBookedSeat(seatNumber.length);
-    setPrice(userData.Price);
+    console.log("hi",seatNumber.length);
+    setPrice(userData.businfos[0].Price);
+    console.log("hi",userData._id)
 
-    setMul(seatNumber.length * userData.Price);
+    setMul(seatNumber.length * userData.businfos[0].Price);
 
-    console.log(seatNumber.length);
+    
     handleTotal();
   };
 
@@ -115,7 +133,8 @@ export default function SeatPicker() {
   };
 
   return (
-    <div className="container">
+    <div className="container ">
+   
       <div className="container1">
         <div className="seatdetail">
       <div className="ref ">
@@ -392,6 +411,7 @@ export default function SeatPicker() {
                 onChange={(e) => e.target.value}
               />
             </div>
+         
             {handleTotal()}
 
             <button
@@ -404,5 +424,6 @@ export default function SeatPicker() {
         </div>
       </div>
     </div>
+   
   );
 }

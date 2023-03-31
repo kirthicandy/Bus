@@ -1,13 +1,6 @@
-
-.buscontainer{
-    background-color: rgb(204, 131, 43);
-}
 .buslist {
     margin-top: 20px;
     background-color: rgba(240, 248, 255, 0.548);
-}
-.box-2{
-    width: 50%;
 }
 
 .row {
@@ -104,4 +97,3 @@
 .nonActive {
     display: none;
 }
-

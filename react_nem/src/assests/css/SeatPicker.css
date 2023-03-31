@@ -3,8 +3,16 @@
 *:after {
   box-sizing: border-box;
 }
+body{
+  background-color: rgba(0, 0, 0,0.3);
+}
 .container {
   display: flex;
+
+
+  width: 100vw;
+  height: 90vh;
+  margin: 33px auto
 }
 
 html {
@@ -53,7 +61,7 @@ ol {
 }
 
 .seat input[type="checkbox"]:checked + label {
-  background: #bada55;
+  background: #85c2bd;
   color: black;
   -webkit-animation-name: rubberBand;
   animation-name: rubberBand;
@@ -87,30 +95,26 @@ ol {
   width: 100%;
   text-align: center;
   font-size: 14px;
-  font-weight: bold;
   line-height: 1.5rem;
-  padding: 4px 0;
-  background: #51aefa;
+  padding: 4px 7px;
+  background: #d6d2ce;
   border-radius: 5px;
   animation-duration: 300ms;
   animation-fill-mode: both;
-  color: white;
 }
-.seatdetail{
-	text-align: center;
+.seatdetail {
+  text-align: center;
 }
 .sel label {
-
   position: relative;
   width: 20%;
-margin-right: 17px;
+  margin-right: 17px;
   line-height: 1rem;
   padding: 4px 0;
   background: #bada55;
   border-radius: 5px;
 }
 .ref label {
- 
   position: relative;
   width: 20%;
   margin-right: 15px;
@@ -118,8 +122,6 @@ margin-right: 17px;
   padding: 4px 0;
   background: #51aefa;
   border-radius: 5px;
- 
-
 }
 
 .seat label:before {
@@ -136,7 +138,7 @@ margin-right: 17px;
 
 .seat label:hover {
   cursor: pointer;
-  box-shadow: 0 0 0px 2px #7d86eb;
+  box-shadow: 0 0 0px 2px #85c2bd;
 }
 
 @-webkit-keyframes rubberBand {
@@ -220,15 +222,15 @@ margin-right: 17px;
 
 .container1 {
   /* width: auto; */
-  width: 30%;
+  width: 40%;
   border: 1px solid #e8f1f5;
-  background-color: #dbe4e7b0;
+  background-color: rgba(240, 248, 255, 0.548);
 }
 .container2 {
   /* width: auto; */
-  width: 70%;
+  width: 60%;
   border: 1px solid #e8f1f5;
-  background-color: #dbe4e7b0;
+  background-color: rgba(156, 150, 145, 0.5);
 }
 
 .seatInfo {

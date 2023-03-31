@@ -27,7 +27,7 @@ router.get("/aggregate", async (req, res) => {
               from: "businfos",
               localField: "Bus_id",
               foreignField: "_id",
-              as: "busroutes"
+              as: "busroute"
             }
        }
       ]
@@ -37,14 +37,19 @@ router.get("/aggregate", async (req, res) => {
       res.send("Error" + err);
     }
   });
-  router.post("/aggregate/id", async (req, res) => {
-    try {
-        let id = req.body.id
 
-      
+
+  router.post("/agi",async(req,res)=>{
+    console.log("start")
+    const{id,Source} = req.body
+    try {
+      // const detail = await businfo.findById(id);
+  
+  
+        
       var aggregatequery = [
         { 
-            $match : { "_id" : id  }
+            $match : { "Bus_id" : new mongoose.Types.ObjectId(id.toString()), "Source":Source   }
          },
         {
             
@@ -53,17 +58,17 @@ router.get("/aggregate", async (req, res) => {
               from: "businfos",
               localField: "Bus_id",
               foreignField: "_id",
-              as: "busroutes"
+              as: "businfos"
             }
-       }
+       },
       ]
       const detail = await busroute.aggregate(aggregatequery);
-      const data = detail.findById(id)
-      res.json(data);
+      res.json(detail);
     } catch (err) {
       res.send("Error" + err);
     }
-  });
+  })
+  
 router.post("/", async (req, res) => {
   const { Bus_id, Source, Destination, Arrival_time, Departure_time, Boarding_point,Dropping_point } =
     req.body;

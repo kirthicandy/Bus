@@ -11,12 +11,12 @@ import {
   MDBIcon,
   MDBRadio,
 } from "mdb-react-ui-kit";
-import '../assests/css/Registration.css'
+import "../assests/css/Registration.css";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import Login from "./Login";
 
-const Registration = () => {
+const Registration = (props) => {
   const info = {
     username: "",
     email: "",
@@ -42,6 +42,23 @@ const Registration = () => {
   } = data;
 
   const [dataError, setDataError] = useState({});
+  const[popup,setpopup] =useState('close');
+
+  const open = () =>{
+    switch(popup){
+      case "close":
+        setpopup('open');
+        return
+        case "open":
+        setpopup('close');
+        return
+    
+      default:
+        setpopup('close');
+        return;
+    }
+    
+  }
   const handleChange = (event) => {
     console.log(event);
 
@@ -72,7 +89,7 @@ const Registration = () => {
         /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
       if (!passregrex.test(data.password)) {
         err.password =
-          "Password should atleast contain 8 characters with one lowercase, one uppercase,one digit and one special character!";
+        "Weak password";
       } else {
         err.password = "";
       }
@@ -122,7 +139,7 @@ const Registration = () => {
         email: email,
         password: password,
         number: number,
-        userType:userType,
+        userType: userType,
         gender: gender,
       })
       .then((res) => {
@@ -136,163 +153,151 @@ const Registration = () => {
       });
   };
   return (
-    <div className="container1 w-100">
+    <>
+    {props.somepop ==="open"?
+    
+    
       <MDBContainer fluid>
-        <MDBCard
-          className="text-black m-5 "
-          style={{ borderRadius: "25px" }}
-        >
+         <Login somepop={popup}/>
+        <MDBCard className="register text-black m-auto " style={{ borderRadius: "25px" }}>
           <MDBCardBody>
-            <MDBRow>
-              <MDBCol
-                md="10"
-                lg="6"
-                className="order-2 order-lg-1 d-flex flex-column align-items-center"
-              >
-                <p className="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-2">
-                  Sign up
-                </p>
-                
+            <p className="text-center h3 fw-bold ">
+              Sign up
+            </p>
 
-                <div className="d-flex flex-row align-items-center mt-4 ">
-                  <MDBIcon fas icon="user me-3" size="lg" />
-                  <MDBInput
-                    placeholder="Your Name"
-                    id="form1"
-                    type="text"
-                    value={username}
-                    name="username"
-                    className="w-100"
-                    onChange={handleChange}
-                  />
-                </div>
+            <div className=" align-items-center ">
+              <MDBIcon fas icon="user me-3" size="lg" />
+              <MDBInput
+                placeholder="Your Name"
+                id="form1"
+                type="text"
+                value={username}
+                name="username"
+                className="w-75 m-auto"
+                onChange={handleChange}
+              />
                 <span className="non-valid">{dataError.username}</span>
+            </div>
+          
+
+            <div className=" align-items-center ">
+              {" "}
+              <MDBIcon className="fas fa-globe me-2" size="" />
+              <MDBInput
+                placeholder="Your Age"
+                id="form1"
+                type="text"
+                name="age"
+                value={age}
+                className="w-75 m-auto"
+                onChange={handleChange}
+              />
+              <span className="non-valid">{dataError.age}</span>
+            </div>
+            
+
+            <div className=" align-items-center ">
+              {" "}
+              <MDBIcon fas icon="envelope me-3" size="lg" />
+              <MDBInput
+                placeholder="Your Email"
+                id="form2"
+                name="email"
+                type="email"
+                value={email}
+                className="w-75 m-auto"
+                onChange={handleChange}
+              />
+              <span className="non-valid">{dataError.email}</span>
+            </div>
+            
+
+            <div className=" align-items-center  ">
+              {" "}
+              <MDBIcon fas icon="lock me-3" size="lg" />
+              <MDBInput
+                placeholder="Password"
+                id="form3"
+                name="password"
+                type="password"
+                className="w-75 m-auto"
+                value={password}
+                onChange={handleChange}
+              />
+              <span className="non-valid">{dataError.password}</span>
+            </div>
+            <div className=" align-items-center  ">
+              {" "}
+              <MDBIcon fas icon="key me-3" size="lg" />
+              <MDBInput
+                name="cnfmpassword"
+                placeholder="Repeat your password"
+                id="form4"
+                type="password"
+                className="w-75 m-auto"
+                value={cnfmpassword}
+                onChange={handleChange}
+              />
+              <span className="non-valid">{dataError.cnfmpassword}</span>
+            </div>
+
+            <div className=" align-items-center ">
+              {" "}
+              <MDBIcon fas icon="fa-mobile me-4 " size="lg" />
+              <MDBInput
+                name="number"
+                placeholder="Number "
+                id="form5"
+                type="text"
+                className="w-75 m-auto"
+                value={number}
+                onChange={handleChange}
+              />
+              <span className="non-valid">{dataError.number}</span>
+            </div>
+
+            <div>
+              <MDBRadio
+                className=""
+                name="gender"
+                id="inlineRadio1  "
+                onChange={handleChange}
+                label="Male"
+                value="Male"
+                inline
+              />
+              <MDBRadio
+                name="gender"
+                id="inlineRadio2"
+                onChange={handleChange}
+                label="Female"
+                value="Female"
+                inline
+              />
+              <MDBRadio
+                name="gender"
+                id="inlineRadio3"
+                onChange={handleChange}
+                label="Others "
+                value="Others"
+                inline
+              />
+            </div>
+
+            <button className="mt-4 btn btn-primary m-3" onClick={handleSubmit}>
+              Register
+            </button>
+            <div className="m-auto align-items-center ">
+              <span>Have an account?</span>
               
-
-                <div className="d-flex flex-row align-items-center mt-4 ">
-                  <MDBIcon className="fas fa-globe me-3" size="lg" />
-                  <MDBInput
-                    placeholder="Your Age"
-                    id="form1"
-                    type="text"
-                    name="age"
-                    value={age}
-                    className="w-100"
-                    onChange={handleChange}
-                  />
-                </div>
-                <span className="non-valid">{dataError.age}</span>
-
-                <div className="d-flex flex-row align-items-center mt-4">
-                  <MDBIcon fas icon="envelope me-3" size="lg" />
-                  <MDBInput
-                    placeholder="Your Email"
-                    id="form2"
-                    name="email"
-                    type="email"
-                    value={email}
-                    onChange={handleChange}
-                  />
-                </div>
-               
-
-                <div className="d-flex flex-row align-items-center mt-4">
-                  <MDBIcon fas icon="lock me-3" size="lg" />
-                  <MDBInput
-                    placeholder="Password"
-                    id="form3"
-                    name="password"
-                    type="password"
-                    value={password}
-                    onChange={handleChange}
-                  />
-                </div>
-               
-
-                <div className="d-flex flex-row align-items-center mt-4">
-                  <MDBIcon fas icon="key me-3" size="lg" />
-                  <MDBInput
-                    name="cnfmpassword"
-                    placeholder="Repeat your password"
-                    id="form4"
-                    type="password"
-                    value={cnfmpassword}
-                    onChange={handleChange}
-                  />
-                </div>
-                
-                <div className="d-flex flex-row align-items-center mt-4 ">
-                  {/* <MDBIcon fas icon="fa-mobile me-4 " size="lg" /> */}
-                  <MDBInput
-                    name="number"
-                    placeholder="Number "
-                    id="form5"
-                    type="text"
-                    value={number}
-                    onChange={handleChange}
-                  />
-                </div>
-               
-                <div>
-                  <MDBRadio
-                    className=""
-                    name="gender"
-                    id="inlineRadio1  "
-                    onChange={handleChange}
-                    label="Male"
-                    value="Male"
-                    inline
-                  />
-                  <MDBRadio
-                    name="gender"
-                    id="inlineRadio2"
-                    onChange={handleChange}
-                    label="Female"
-                    value="Female"
-                    inline
-                  />
-                  <MDBRadio
-                    name="gender"
-                    id="inlineRadio3"
-                    onChange={handleChange}
-                    label="Others "
-                    value="Others"
-                    inline
-                  />
-                </div>
+                <button className=" btn btn-primary " onClick={(e)=>open(e)}>Login</button>
               
-                <button
-                  className="mt-4 btn btn-primary m-3"
-                  onClick={handleSubmit}
-                >
-                  Register
-                </button>  
-                <div className="d-flex flex-row align-items-center ">
-                <span>Have an account?</span>
-                <Link to="/login"><button
-                  className=" btn btn-primary "
-                   >
-                  Login
-                </button></Link>
-                </div>
-              </MDBCol>
-
-              <MDBCol
-                md="10"
-                lg="6"
-                className="order-1 order-lg-2 d-flex align-items-center"
-              >
-                <MDBCardImage
-                  src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-registration/draw1.webp"
-                  fluid
-                />
-              </MDBCol>
-            </MDBRow>
+            </div>
           </MDBCardBody>
         </MDBCard>
-      </MDBContainer>
-      </div>
-    
+      </MDBContainer>:""
+      }
+   </>
   );
 };
 export default Registration;
